@@ -1,0 +1,38 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BeeMart.BackendApi.Models;
+
+public class MsProduct
+{
+    [Key]
+    [StringLength(36)]
+    public string IdProduct { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(100)]
+    public string Name { get; set; } = string.Empty;
+
+    [Column(TypeName = "decimal(10,2)")]
+    public decimal Weight { get; set; }
+
+    public int Stock { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal Price { get; set; }
+
+    [Column(TypeName = "decimal(5,2)")]
+    public decimal Discount { get; set; }
+
+    public bool Stsrc { get; set; } = true;
+
+    public DateTime Datein { get; set; } = DateTime.Now;
+
+    [StringLength(36)]
+    public string Userin { get; set; } = string.Empty;
+
+    public DateTime Dateup { get; set; } = DateTime.Now;
+
+    [StringLength(36)]
+    public string Userup { get; set; } = string.Empty;
+}

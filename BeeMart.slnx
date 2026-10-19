@@ -1,0 +1,11 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Default" />
+    <BuildType Name="Release" />
+  </Configurations>
+  <Project Path="BeeMart.BackendApi/BeeMart.BackendApi.csproj" Id="a7aec652-5621-4285-b367-14860aa24c44">
+    <BuildType Solution="Default|*" Project="Release" />
+    <Build Solution="Default|*" Project="false" />
+  </Project>
+</Solution>

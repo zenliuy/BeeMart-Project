@@ -1,0 +1,1 @@
+SELECT IdUser, Username, Role, PasswordHash FROM MsUser;
