@@ -38,6 +38,14 @@
                     <label for="login-password">Password</label>
                     <input id="login-password" type="password" placeholder="Password" class="form-control" autocomplete="current-password">
                 </div>
+                <div class="form-group">
+                    <label for="login-roles">Role</label>
+                    <select id>
+                        <option value="" disbaled selected>Choose Roles</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Kasir">Kasir</option>
+                    </select>
+                </div>
                 <button type="button" class="btn btn-primary btn-block" onclick="login()">Log in</button>
                 <div id="login-error" class="message-error"></div>
             </form>
