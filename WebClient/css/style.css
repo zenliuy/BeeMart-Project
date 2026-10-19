@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background: #white;
+  background: #f4f4f4;
   margin: 0;
   padding: 0;
 }
@@ -9,7 +9,15 @@ body {
 header {
   background: #3366cc;
   color: white;
+  margin: 0;
   padding: 1rem;
+}
+
+main {
+  padding: 2rem;
+  color: #333;
+  margin: 0;
+  background: #fff;
 }
 
 .container {
