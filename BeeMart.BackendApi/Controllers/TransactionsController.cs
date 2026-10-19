@@ -147,4 +147,74 @@ public class TransactionsController : ControllerBase
             totalPrice = header.TotalPrice
         });
     }
+    
+    [HttpGet]
+    public async Task<IActionResult> History([FromQuery] string? date, [FromQuery] int page = 1)
+    {
+        const int pageSize = 20;
+
+        if (string.IsNullOrWhiteSpace(date)
+            || !DateTime.TryParseExact(date, "yyyy-MM-dd",
+                System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.None, out var day))
+        {
+            return BadRequest(new
+            {
+                message = "Tanggal wajib diisi dengan format yyyy-MM-dd.",
+                errors = new Dictionary<string, string[]> { ["date"] = new[] { "Tanggal wajib dipilih." } }
+            });
+        }
+
+        if (page < 1) page = 1;
+
+        var startUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(day.Date, DateTimeKind.Unspecified), Wib);
+        var endUtc = TimeZoneInfo.ConvertTimeToUtc(DateTime.SpecifyKind(day.Date.AddDays(1), DateTimeKind.Unspecified), Wib);
+
+        var query = _db.TrTransactions
+            .Where(t => t.TransactionDate >= startUtc && t.TransactionDate < endUtc);
+
+        // Hak akses ditentukan dari token: Kasir hanya datanya sendiri
+        if (!User.IsInRole("Admin"))
+        {
+            var idUser = User.FindFirstValue("idUser")!;
+            query = query.Where(t => t.IdUser == idUser);
+        }
+
+        var totalItems = await query.CountAsync();
+
+        var rows = await query
+            .OrderBy(t => t.TransactionDate)
+            .ThenBy(t => t.InvoiceNo)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(t => new
+            {
+                t.InvoiceNo,
+                t.TransactionDate,
+                CashierName = t.IdUserNavigation.FullName,
+                TotalItems = t.TrTransactionDetails.Sum(d => d.Qty),
+                PaymentMethod = t.IdPaymentMethodNavigation.MethodName,
+                t.TotalPrice
+            })
+            .ToListAsync();
+
+        var items = rows.Select(r => new
+        {
+            invoiceNo = r.InvoiceNo,
+            transactionDate = DateTime.SpecifyKind(r.TransactionDate, DateTimeKind.Utc),
+            cashierName = r.CashierName,
+            totalItems = r.TotalItems,
+            paymentMethod = r.PaymentMethod,
+            totalPrice = r.TotalPrice
+        });
+
+        return Ok(new
+        {
+            items,
+            page,
+            pageSize,
+            totalItems,
+            totalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+        });
+    }
 }
