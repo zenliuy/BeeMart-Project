@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#f7f6ef">
     <title>Sign in | BeeMart</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/pages/authentication.css">
+    <script src="../js/pages/authentication.js" defer></script>
 </head>
 
 <body class="auth-page">
@@ -25,8 +26,8 @@
             <p class="auth-subheading">Sign in to continue to your account.</p>
 
             <div class="auth-tabs">
-                <button id="auth-tab-login" class="auth-tab-button active" type="button" onclick="showLoginForm()">Log in</button>
-                <button id="auth-tab-register" class="auth-tab-button" type="button" onclick="showRegisterForm()">Create account</button>
+                <button id="auth-tab-login" class="auth-tab-button active" type="button" aria-pressed="true" onclick="showLoginForm()">Log in</button>
+                <button id="auth-tab-register" class="auth-tab-button" type="button" aria-pressed="false" onclick="showRegisterForm()">Create account</button>
             </div>
 
             <form id="login-form" class="auth-form">

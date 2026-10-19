@@ -4,6 +4,11 @@
     <BuildType Name="Default" />
     <BuildType Name="Release" />
   </Configurations>
+  <Folder Name="/WebClient/">
+    <Project Path="WebClient/BeeMart.WebClient.csproj">
+      <BuildType Solution="Default|*" Project="Debug" />
+    </Project>
+  </Folder>
   <Project Path="BeeMart.BackendApi/BeeMart.BackendApi.csproj" Id="a7aec652-5621-4285-b367-14860aa24c44">
     <BuildType Solution="Default|*" Project="Release" />
     <Build Solution="Default|*" Project="false" />
