@@ -1,0 +1,5 @@
+@{ var active = ViewData["Active"] as string; }
+<div class="tabs">
+    <a class="tab @(active == "new" ? "active" : "")" asp-controller="Transaction" asp-action="New">New Transaction</a>
+    <a class="tab @(active == "history" ? "active" : "")" asp-controller="Transaction" asp-action="History">History Transaction</a>
+</div>

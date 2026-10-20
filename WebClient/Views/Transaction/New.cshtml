@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "New Transaction";
+    ViewData["Mode"] = "new";
+    ViewData["Active"] = "new";
+}
+
+<partial name="_Topbar" />
+
+<div class="page">
+    <div class="card">
+        <partial name="_Tabs" />
+
+        <div class="invoice-bar">Invoice No: <span id="invoiceNo">...</span></div>
+
+        <label class="search-label" for="searchInput">Cari Barang (Ketik: Apel / Susu, lalu tekan Enter)</label>
+        <input type="text" id="searchInput" class="search-input" placeholder="Ketik nama barang..." autocomplete="off" />
+
+        <div class="table-scroll hidden" id="searchWrap">
+            <table id="searchResults">
+                <thead>
+                    <tr><th>Nama Barang</th><th>Berat</th><th>Stock</th><th>Harga</th><th>Diskon</th><th>Aksi</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="pickDialog" class="pick-dialog hidden">
+            <div class="pick-title">Barang Terpilih: <span id="pickName"></span></div>
+            <div class="pick-row">
+                <div>Harga Satuan:<br /><b id="pickPrice"></b></div>
+                <div>Sisa Stock:<br /><b id="pickStock"></b></div>
+                <div class="pick-qty">
+                    <label for="pickQty">Qty:</label>
+                    <input type="number" id="pickQty" min="1" value="1" />
+                </div>
+                <button type="button" id="btnAddToCart" class="btn-small">Masukkan ke Keranjang</button>
+            </div>
+        </div>
+
+        <h3 class="section-title">Daftar Belanjaan</h3>
+        <div class="table-scroll">
+            <table id="cartTable">
+                <thead>
+                    <tr><th>Nama Barang</th><th>Harga</th><th>Diskon</th><th>Qty</th><th>Subtotal</th><th>Aksi</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="total" id="totalText">Total: Rp 0</div>
+
+        <div class="payment-row">
+            <label for="paymentMethod">Metode Pembayaran:</label>
+            <select id="paymentMethod"></select>
+        </div>
+
+        <button type="button" id="btnSubmit" class="btn-primary">Submit Transaksi</button>
+    </div>
+</div>
+
+<div id="toastContainer"></div>
+
+@section Scripts {
+    <script src="~/js/transaction.js" asp-append-version="true"></script>
+}
