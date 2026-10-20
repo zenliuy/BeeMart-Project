@@ -16,6 +16,7 @@ public class AccountController : Controller
         _api = api;
     }
 
+    // ---------- LOGIN ----------
     [HttpGet]
     public IActionResult Login() => View(new LoginViewModel());
 
@@ -52,6 +53,41 @@ public class AccountController : Controller
         return RedirectToAction("Index", "Home");
     }
 
+    // ---------- REGISTER ----------
+    [HttpGet]
+    public IActionResult Register() => View(new RegisterViewModel());
+
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel model)
+    {
+        if (string.IsNullOrWhiteSpace(model.Username) || string.IsNullOrWhiteSpace(model.FullName)
+            || string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.RePassword))
+        {
+            model.Error = "Username, Full Name, Password dan Re-Password wajib diisi.";
+            return View(model);
+        }
+
+        if (model.Password != model.RePassword)
+        {
+            model.Error = "Re-Password harus sama dengan Password.";
+            return View(model);
+        }
+
+        var role = model.Role?.Trim() ?? string.Empty;
+        var error = await _api.RegisterAsync(model.Username.Trim(), model.FullName.Trim(),
+            model.Password!, model.RePassword!, role);
+
+        if (error != null)
+        {
+            model.Error = error;
+            return View(model);
+        }
+
+        TempData["Success"] = "Registrasi berhasil. Silakan login.";
+        return RedirectToAction("Login");
+    }
+
+    // ---------- LOGOUT ----------
     [HttpPost]
     public async Task<IActionResult> Logout()
     {

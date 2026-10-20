@@ -52,5 +52,28 @@ public class ApiClient
             return (null, "Tidak dapat terhubung ke server API.");
         }
     }
+    public async Task<string?> RegisterAsync(string username, string fullName, string password, string rePassword, string role)
+    {
+        try
+        {
+            var res = await _http.PostAsJsonAsync("api/v1/auth/register",
+                new { username, fullName, password, rePassword, role });
+
+            if (res.IsSuccessStatusCode) return null;
+
+            if (res.StatusCode is HttpStatusCode.Conflict or HttpStatusCode.BadRequest)
+            {
+                var err = await res.Content.ReadFromJsonAsync<ErrorResponse>();
+                return err?.Message ?? "Registrasi gagal.";
+            }
+
+            return "Terjadi kesalahan pada server.";
+        }
+        catch (HttpRequestException)
+        {
+            return "Tidak dapat terhubung ke server API.";
+        }
+    }
 }
+
     
