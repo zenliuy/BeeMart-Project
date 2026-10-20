@@ -1,8 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "BeeMart";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div style ="padding:24px;font-family:Arial,sans-serif">
+    <h2>Login Berhasil</h2>
+    <p>Login: <b>@User.Identity!.Name</b> | Admin: <b>@User.IsInRole("Admin")</b></p>
+    <form method ="post" asp-controller= "Account" asp-aciton = "Logout">
+        <button type = "submit">Logout</button>
+    </form>
 </div>

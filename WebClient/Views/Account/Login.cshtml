@@ -2,33 +2,38 @@
 @{ ViewData["Title"] = "Login"; }
 
 <div class="auth-wrapper">
-    <div class ="auth-card">
+    <div class="auth-card">
         <h1>BeeMart Login</h1>
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert-success">@TempData["Success"]</div>
+        }
 
         @if (!string.IsNullOrEmpty(Model.Error))
         {
-            <div class ="alert-error">@Model.Error</div>
+            <div class="alert-error">@Model.Error</div>
         }
 
-        <form method = "post" asp-action="Login">
-            <div class = "form-group">
-                <label for = "username  ">Username</label>
-                <input type = "text" id = "username" name = "Username" value = "@Model.Username" />
+        <form method="post" asp-action="Login">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="Username" value="@Model.Username" />
             </div>
-            <div class = "form-group">
-                <label for = "password">Password</label>
-                <input type = "password" id = "password" name = "Password" />
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="Password" />
             </div>
-            <div class = = "from-group">
-                <label for = "role">Role</label>
-                <select id = "role" name = "Role">
-                    <option value = "Cashier" selected ="@(Model.Role) == "Cashier")">Kasir</option>
-                    <option value = "Admin" selected ="@(Model.Role) == "Admin")">Admin</option>
+            <div class="form-group">
+                <label for="role">Role</label>
+                <select id="role" name="Role">
+                    <option value="Cashier" selected="@(Model.Role == "Cashier")">Kasir</option>
+                    <option value="Admin" selected="@(Model.Role == "Admin")">Admin</option>
                 </select>
             </div>
-            <button type = "submit" class = "btn-primary">Login</button>
+            <button type="submit" class="btn-primary">Login</button>
         </form>
 
-        <a class = "auth-link" href = "#">Belum Punya Akun? Register</a>
+        <a class="auth-link" asp-action="Register">Belum punya akun? Register</a>
     </div>
 </div>
