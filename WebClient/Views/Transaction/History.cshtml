@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "History Transaction";
+    ViewData["Mode"] = "history";
+    ViewData["Active"] = "history";
+    var isAdmin = User.IsInRole("Admin");
+}
+
+<partial name="_Topbar" />
+
+<div class="page">
+    <div class="card">
+        <partial name="_Tabs" />
+
+        <p class="filter-note">
+            Pencarian Data Transaksi
+            @if (isAdmin)
+            {
+                <b class="filter-scope">(Menampilkan Semua Kasir)</b>
+            }
+            else
+            {
+                <b class="filter-scope">(Hanya Kasir: @User.Identity!.Name)</b>
+            }
+        </p>
+
+        <div class="filter-row">
+            <label for="filterDate">Pilih Tanggal:</label>
+            <input type="date" id="filterDate" />
+            <button type="button" id="btnSearch" class="btn-small">Cari Data</button>
+        </div>
+
+        <div class="table-scroll">
+            <table id="historyTable">
+                <thead>
+                    <tr>
+                        <th>No. Transaksi</th><th>Tanggal &amp; Jam</th><th>Kasir</th>
+                        <th>Jml Item</th><th>Pembayaran</th><th>Total Harga</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="pagination" class="pagination"></div>
+    </div>
+</div>
+
+<div id="toastContainer"></div>
+
+@section Scripts {
+    <script src="~/js/history.js" asp-append-version="true"></script>
+}

@@ -1,5 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace BeeMart.WebClient.Services;
 
@@ -72,6 +74,23 @@ public class ApiClient
         catch (HttpRequestException)
         {
             return "Tidak dapat terhubung ke server API.";
+        }
+    }
+    public async Task<(int Status, string Body)> ForwardAsync(HttpMethod method, string url, string token, string? json = null)
+    {
+        try
+        {
+            var req = new HttpRequestMessage(method, url);
+            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            if (json != null)
+                req.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var res = await _http.SendAsync(req);
+            return ((int)res.StatusCode, await res.Content.ReadAsStringAsync());
+        }
+        catch (HttpRequestException)
+        {
+            return (503, "{\"message\":\"Tidak dapat terhubung ke server API.\"}");
         }
     }
 }
