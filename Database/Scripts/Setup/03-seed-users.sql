@@ -1,11 +1,6 @@
 USE BeeMart;
 GO
 
--- Akun awal untuk pengujian
---   admin  / Admin123!  (Role: Admin)
---   kasir1 / Kasir123!  (Role: Cashier)
--- Password disimpan sebagai hash BCrypt, bukan teks asli.
-
 IF NOT EXISTS (SELECT 1 FROM MsUser WHERE Username = 'admin')
     INSERT INTO MsUser (IdUser, Username, FullName, PasswordHash, Role, Stsrc, Datein, Userin)
     VALUES ('93837', 'admin', 'Administrator',
